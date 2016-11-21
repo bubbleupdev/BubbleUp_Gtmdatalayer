@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+    <default>
+        <reference name="head">
+            <block type="gtmdatalayer/main" name="gtmdatalayer_master" after="-" />
+            <block type="gtmdatalayer/cart" after="gtmdatalayer_master" />
+            <block type="gtmdatalayer/identify" after="gtmdatalayer_master" />
+        </reference>
+
+
+    </default>
+    <checkout_onepage_index>
+        <reference name="head">
+            <block type="gtmdatalayer/checkout" after="gtmdatalayer_master" />
+            <action method="addItem" ifconfig="google/gtmdatalayer/include_datalayer"><type>skin_js</type><name>js/bubbleup_gtmdatalayer/checkout_step.js</name></action>
+        </reference>
+    </checkout_onepage_index>
+
+    <catalog_product_view>
+        <reference name="head">
+            <block type="gtmdatalayer/product" after="gtmdatalayer_master" />
+        </reference>
+    </catalog_product_view>
+
+    <checkout_onepage_success>
+        <reference name="head">
+            <block type="gtmdatalayer/conversion" after="gtmdatalayer_master" />
+        </reference>
+    </checkout_onepage_success>
+
+    <gtm_product_impressions>
+        <reference name="head">
+            <action method="addItem" ifconfig="google/gtmdatalayer/include_datalayer"><type>skin_js</type><name>js/bubbleup_gtmdatalayer/product_grid.js</name></action>
+        </reference>
+        <reference name="product_list.after">
+            <block type="gtmdatalayer/impression" />
+        </reference>
+    </gtm_product_impressions>
+
+    <catalog_category_default>
+        <update handle="gtm_product_impressions" />
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <update handle="gtm_product_impressions" />
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <update handle="gtm_product_impressions" />
+    </catalogsearch_result_index>
+
+    <catalogsearch_advanced_result>
+        <update handle="gtm_product_impressions" />
+    </catalogsearch_advanced_result>
+
+</layout>

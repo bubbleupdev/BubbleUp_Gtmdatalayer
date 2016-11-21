@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <BubbleUp_Gtmdatalayer>
+            <active>true</active>
+            <codePool>local</codePool>
+        </BubbleUp_Gtmdatalayer>
+    </modules>
+</config>

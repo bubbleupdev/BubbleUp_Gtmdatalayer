@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<config>
+    <default>
+        <google>
+            <gtmdatalayer>
+                <include_datalayer>1</include_datalayer>
+                <include_push_identify>0</include_push_identify>
+            </gtmdatalayer>
+        </google>
+    </default>
+    <modules>
+        <BubbleUp_Gtmdatalayer>
+            <version>0.0.1</version>
+        </BubbleUp_Gtmdatalayer>
+    </modules>
+    <global>
+        <blocks>
+            <gtmdatalayer>
+                <class>BubbleUp_Gtmdatalayer_Block</class>
+            </gtmdatalayer>
+        </blocks>
+        <models>
+            <gtmdatalayer>
+                <class>BubbleUp_Gtmdatalayer_Model</class>
+            </gtmdatalayer>
+        </models>
+        <helpers>
+            <gtmdatalayer>
+                <class>BubbleUp_Gtmdatalayer_Helper</class>
+            </gtmdatalayer>
+        </helpers>
+        <resources>
+            <bubbleup_gtmdatalayer_setup>
+                <setup>
+                    <module>BubbleUp_Gtmdatalayer</module>
+                </setup>
+            </bubbleup_gtmdatalayer_setup>
+        </resources>
+
+        <sales>
+        <!-- This gets added by an observer now.
+            <order>
+                <item>
+                    <product_attributes>
+                        <color />
+                    </product_attributes>
+                </item>
+            </order>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <color />
+                    </product_attributes>
+                </item>
+            </quote>
+        -->
+        </sales>
+    </global>
+    <frontend>
+        <routers>
+          <bubbleup_gtmdatalayer>
+              <use>standard</use>
+              <args>
+                 <module>BubbleUp_Gtmdatalayer</module>
+                 <frontName>gtmdatalayer</frontName>
+              </args>
+           </bubbleup_gtmdatalayer>
+        </routers>
+        <layout>
+            <updates>
+                <bubbleup_gtmdatalayer>
+                    <file>bubbleup_gtmdatalayer.xml</file>
+                </bubbleup_gtmdatalayer>
+            </updates>
+        </layout>
+        <events>
+            <sales_quote_remove_item>
+                <observers>
+                    <gtmdatalayer_log_cart_remove>
+                        <class>gtmdatalayer/observer</class>
+                        <method>logCartRemove</method>
+                    </gtmdatalayer_log_cart_remove>
+                </observers>
+            </sales_quote_remove_item>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <gtmdatalayer_log_cart_add>
+                        <class>gtmdatalayer/observer</class>
+                        <method>logCartAdd</method>
+                    </gtmdatalayer_log_cart_add>
+                </observers>
+            </checkout_cart_product_add_after>
+
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <gtmdatalayer_sales_quote_config_get_product_attributes>
+                        <class>gtmdatalayer/observer</class>
+                        <method>getAttributesToInclude</method>
+                    </gtmdatalayer_sales_quote_config_get_product_attributes>
+                </observers>
+            </sales_quote_config_get_product_attributes>
+            
+            
+           
+        </events>
+    </frontend>
+
+</config>
