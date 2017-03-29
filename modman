@@ -14,4 +14,5 @@ BubbleUp_Gtmdatalayer/app/code/local/BubbleUp/Gtmdatalayer/etc/config.xml app/co
 BubbleUp_Gtmdatalayer/app/code/local/BubbleUp/Gtmdatalayer/etc/system.xml app/code/local/BubbleUp/Gtmdatalayer/etc/system.xml
 BubbleUp_Gtmdatalayer/app/code/local/BubbleUp/Gtmdatalayer/sql/bubbleup_gtmdatalayer_setup/install-0.0.1.php app/code/local/BubbleUp/Gtmdatalayer/sql/bubbleup_gtmdatalayer_setup/install-0.0.1.php
 BubbleUp_Gtmdatalayer/app/design/frontend/base/default/layout/bubbleup_gtmdatalayer.xml app/design/frontend/base/default/layout/bubbleup_gtmdatalayer.xml
-BubbleUp_Gtmdatalayer/skin/frontend/base/default/js/bubbleup_gtmdatalayer skin/frontend/base/default/js/bubbleup_gtmdatalayer skin/frontend/base/default/js/bubbleup_gtmdatalayer skin/frontend/base/default/js/bubbleup_gtmdatalayer
+BubbleUp_Gtmdatalayer/skin/frontend/base/default/js/bubbleup_gtmdatalayer/checkout_step.js skin/frontend/base/default/js/bubbleup_gtmdatalayer/checkout_step.js
+BubbleUp_Gtmdatalayer/skin/frontend/base/default/js/bubbleup_gtmdatalayer/product_grid.js skin/frontend/base/default/js/bubbleup_gtmdatalayer/product_grid.js
