@@ -7,6 +7,9 @@
             <block type="gtmdatalayer/identify" after="gtmdatalayer_master" />
         </reference>
 
+        <reference name="after_body_start">
+            <block type="core/template" name="bubbleup_gtm_tag" template="bubbleup/gtm_tag.phtml" before="-" />
+        </reference>
 
     </default>
     <checkout_onepage_index>
