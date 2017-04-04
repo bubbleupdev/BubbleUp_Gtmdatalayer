@@ -30,6 +30,14 @@ If enabled, the 2-letter country code, and the 2-letter region code will be adde
 * **Include 'Push Identify' feature**
 If enabled, turn on 'Push Identify' feature for authorized users (push on all pages: first name, last name and e-mail). If disabled, turn off.
 
+### Layout stuff
+In order to have products list working on magento default template, you'll need to add the following: 
+
+In catalog_category_default and catalog_category_layered you'll need to add <block type="core/text_list" name="product_list.after" as="after" /> into product_list (do that in your layout.xml
+
+Also you'll need to add the following to your template ij list.phtml
+
+There also may be the need to change your layout id in products_grid.js
 
 [the zip file]: https://github.com/bubbleupdev/BubbleUp_Gtmdatalayer/archive/master.zip
 [Creare SEO Module]: https://github.com/adampmoss/CreareSEO
