@@ -1,101 +1,66 @@
 <?php   
-class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
-{
+class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Json
+{   
+	/*
+		This block is for setting the snippet shown here:
+			https://developers.google.com/tag-manager/enhanced-ecommerce#details
+	*/
 
-	function getProductData($product = false) {
-		if( $product === false )
-			$product = Mage::registry('current_product');
-
-		return array( // Optional. Dynamic.
-            "name"         => $product->getName(), // Required. Dynamic. String value.
-            "id"           => $product->getSku(), // Required. Dynamic. String value.
-            "price"        => $product->getFinalPrice(), // Required. Dynamic. String value.
-            "category"     => Mage::helper('gtmdatalayer/data')->getProductCategories($product), // Required. Dynamic. String value.
-            "magento_id"   => $product->getId(), // Included so that we can look up product data by ID for product click support
-
-            "brand"        =>    $product->getAttributeText('manufacturer'), // Required. Dynamic. String value.
-        /*    "variant"      =>    '', // Required. Dynamic. String value.
-            "quantity"     =>    '', // Required. Dynamic. Numeric value.
-            "coupon"       =>    '', // Required. Dynamic. String value.
-            "list"         =>    '', // Required. Dynamic. String value.
-            "position"     =>    ''  // Required. Dynamic. Numeric value.
-         */
-        );
-	}
-
-	function is_assoc(array $array) {
-	  return (bool)count(array_filter(array_keys($array), 'is_string'));
-	}
-
-	function _toHtml() {
-		if( !Mage::getStoreConfig('google/gtmdatalayer/include_datalayer') ) {
-			return; // See /app/code/local/BubbleUp/Gtmdatalayer/etc/system.xml
-		}
-
-		$data = $this->getDatalayer();
-		if(!$data) {
-			return; // If there is no data, show nothing
-		}
-
-		// Sometimes we will have multiple data-layers in a non-associative array.
-		if( $this->is_assoc($data) ) {
-			$data = array($data);
-		}
-
-		$scripts = '';
-		foreach($data as $script) {
-			$scripts .= $this->_toJavascript($script);
-		}
-
-		return "<script>$scripts</script>";
-	}
-
-	function _toJavascript($data) {
-		$json = json_encode($data);
-
-		return "var toPushToDatalayer = ($json); dataLayer.push(toPushToDatalayer);";
-	}
-
-	/*function _toHtml() {
-		$collection = Mage::helper('gtmdatalayer')->getBuffer();
-
-		if( $collection->getSize() < 1 ) {
-			return "<!-- GTM Datalayer :: No data to report... -->";
-		}
-
-		foreach($collection as $item) {
-			$dataLayer[] = $item->getData();
-		}
-
-		$json = json_encode($dataLayer);
-
-		return "<script>dataLayer = ($json);</script>";
-	}*/
-    function getRemarketingParameter($product = false) {
-        if( $product === false )
-            $product = Mage::registry('current_product');
-        return array(
+	function getDatalayer() {
+        $product = Mage::registry('current_product');
+	    $dataLayer = array(
+           "event" => "productDetail",
+	       "ecommerce" => array(
+	            "detail" => array( // Optional. Dynamic.
+	                /*"actionField" => array( // Optional. Dynamic.
+	                    "list" =>  , // Optional. Dynamic. String value.
+	                ),*/
+	                "products" =>  array($this->getProductData()) // this function is inherited...
+	            )
+	        ),
             "ecomm_prodid" => $product->getSku(),
             "ecomm_pagetype" => 'product',
-            "ecomm_totalvalue" => $product->getFinalPrice(),
-        );
-    }
-    function getRemarketingQuoteContent($quote, $pagetype){
-//$cart->getAllItems() to get ALL items, parent as well as child, configurable as well as it's simple associated item
-        $items = $quote->getAllVisibleItems();
-        $product_ids = [];
-        //$totals = $quote->getTotals();
-        //$rate = $quote->getData('base_to_quote_rate');
-        //$subtotalIncTax = $quote->getSubtotal()/$rate;
-        foreach ($items as $item) {
-            $product_ids[] = $item->getSku();
-        }
-        return array(
-            "ecomm_prodid" => $product_ids,
-            "ecomm_pagetype" => $pagetype,
-            "ecomm_totalvalue" => $quote->getSubtotal(),
-        );
+            "ecomm_totalvalue" => $product->getFinalPrice()
+	    );
+
+	    $impressions = $this->getImpressions();
+	    if( $impressions ) {
+	    	$dataLayer['ecommerce']['impressions'] = $impressions;
+	    }
 
 
-    }
+	    return $dataLayer;
+	}
+
+	function getImpressions() {
+		$related = Mage::app()->getLayout()->createBlock('gtmdatalayer/related');
+
+		if( !$related ) {
+			Mage::log("No related products block could be loaded. No related impressions being added.");
+			return;
+		}
+
+		$relatedCollection = $related->getItems();
+
+		// Magento best practice says not to use count() on a collection: http://magento.stackexchange.com/questions/4036/difference-between-getsize-and-count-on-collection
+		// This is an exception though.
+		// The collection has already loaded by now, so no sense using getSize().
+		// Calling $collection->count() can cause a fatal error if $collection is not actually a Varien_Data_Collection_Db object.
+		// Count will just reutrn false or zero if this is the case.
+		if( count($relatedCollection) < 1 ) {
+			Mage::log("No related products were found for this page. No related impressions being added.");
+			return;
+		}
+
+		$impressionBlock = Mage::app()->getLayout()->createBlock('gtmdatalayer/impression');
+		$impressionBlock->currentCategory = "Related Products"; // Despite being called "category", this is the value that goes into the 'list' key in the datalayer.
+		$impressionBlock->setProductCollection($relatedCollection);
+
+
+		return $impressionBlock->getProductsData();
+	}
+
+	
+
 }
+?>
