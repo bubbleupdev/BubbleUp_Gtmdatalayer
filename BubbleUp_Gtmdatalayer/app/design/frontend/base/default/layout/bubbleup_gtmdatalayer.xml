@@ -30,7 +30,6 @@
             <block type="gtmdatalayer/conversion" after="gtmdatalayer_master" />
         </reference>
     </checkout_onepage_success>
-
     <gtm_product_impressions>
         <reference name="head">
             <action method="addItem" ifconfig="google/gtmdatalayer/include_datalayer"><type>skin_js</type><name>js/bubbleup_gtmdatalayer/product_grid.js</name></action>
