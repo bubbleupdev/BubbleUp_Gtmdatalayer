@@ -1,118 +1,63 @@
 <?php   
-class BubbleUp_Gtmdatalayer_Block_Cart extends BubbleUp_Gtmdatalayer_Block_Json
+class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Json
 {   
 	/*
-		This block is for setting the snippet shown here (Cart Add and Remove):
-			https://developers.google.com/tag-manager/enhanced-ecommerce#add
+		This block is for setting the snippet shown here:
+			https://developers.google.com/tag-manager/enhanced-ecommerce#details
 	*/
-	
-	const SESSION_DATA_KEY_CART_ADD    = 'product_to_shopping_cart';
-	const SESSION_DATA_KEY_CART_REMOVE = 'product_from_shopping_cart';
-	
+
 	function getDatalayer() {
-		$dataLayers = [];
+	    $dataLayer = array(
+           "event" => "productDetail",
+	       "ecommerce" => array(
+	            "detail" => array( // Optional. Dynamic.
+	                /*"actionField" => array( // Optional. Dynamic.
+	                    "list" =>  , // Optional. Dynamic. String value.
+	                ),*/
+	                "products" =>  array($this->getProductData()) // this function is inherited...
+	            )
+	        ),
+            "google_tag_params" => $this->getRemarketingParameter()
+	    );
 
-		$added = $this->harvestDataFromSession(self::SESSION_DATA_KEY_CART_ADD);
-		if( $added ) {
-			//Mage::log("RENDERing ADDED datalayer item");
-			//Mage::log($added);
-			$dataLayers[] = $this->generateEventDataCartAdd($added);
-		}
+	    $impressions = $this->getImpressions();
+	    if( $impressions ) {
+	    	$dataLayer['ecommerce']['impressions'] = $impressions;
+	    }
 
 
-		$removed = $this->harvestDataFromSession(self::SESSION_DATA_KEY_CART_REMOVE);
-		if( $removed ) {
-			//Mage::log("RENDERing REMVOED datalayer item");
-			//Mage::log($removed);
-			$dataLayers[] = $this->generateEventDataCartRemove($removed);
-		}
-
-        $pageIdentifier = Mage::app()->getFrontController()->getAction()->getFullActionName();
-        if($pageIdentifier == 'checkout_cart_index') {
-            $quote = Mage::getSingleton('checkout/cart')->getQuote();
-            $dataLayers[] = $this->getRemarketingQuoteContent($quote ,'cart');
-
-        }
-		return $dataLayers;
+	    return $dataLayer;
 	}
 
-	function generateEventDataCartAdd($products) {
-		return array(
-          "event" => "addToCart",
-          "ecommerce" => array(
-              "add" => array(
-                  #"products" => array($products)
-              	  "products" => $products
-              )
-          )
-      	);
-	}
+	function getImpressions() {
+		$related = Mage::app()->getLayout()->createBlock('gtmdatalayer/related');
 
-	function generateEventDataCartRemove($products) {
-		return array(
-            "event" => "removeFromCart",
-            "ecommerce" => array(
-                "remove" => array(
-                    #"products" => array($products)
-                    "products" => $products
-                )
-            )
-        );
-	}
-
-	function harvestDataFromSession($key) {
-		$session = Mage::getModel('core/session');
-
-		$itemData = $session->getData($key, true); // Passing true automatically unsets the variable.
-		
-		if( !isset($itemData) ) {
-			return false;
-		}
-		$products = array();
-	
-		foreach($itemData as $item) {
-			$products[] = $this->getCartItemData($item);
+		if( !$related ) {
+			Mage::log("No related products block could be loaded. No related impressions being added.");
+			return;
 		}
 
-		return $products;
-	}
-	
+		$relatedCollection = $related->getItems();
 
-	function getCartItemData($lineItem) {
-		$product = Mage::getModel('catalog/product')->load($lineItem['product_id']);
-
-		if(!$product->getId())
-			return false;
-		
-		$productData = $this->getProductData($product);
-
-		$productData['quantity'] = $lineItem['qty'];
-
-		if( isset($lineItem['related_to']) ) {
-			$productData['category'] = "Related to {$lineItem['related_to']}";
+		// Magento best practice says not to use count() on a collection: http://magento.stackexchange.com/questions/4036/difference-between-getsize-and-count-on-collection
+		// This is an exception though.
+		// The collection has already loaded by now, so no sense using getSize().
+		// Calling $collection->count() can cause a fatal error if $collection is not actually a Varien_Data_Collection_Db object.
+		// Count will just reutrn false or zero if this is the case.
+		if( count($relatedCollection) < 1 ) {
+			Mage::log("No related products were found for this page. No related impressions being added.");
+			return;
 		}
 
-		// The add-to-cart observer sets the variant color for us.
-		if( isset($lineItem['variant']) ) {
-			$productData['variant'] = $lineItem['variant'];
-		}
-		// Look up the variant's color if it's not already loaded (in the case of the remove-from-cart observer).
-		if( empty($productData['variant']) && !empty($lineItem['variant_sku']) ) {
-			$_vp = Mage::getModel('catalog/product');
-			$variantProduct = $_vp->load($_vp->getIdBySku($lineItem['variant_sku']));
-			$productData['variant'] = Mage::helper('gtmdatalayer/data')->getConfigurableVariantData($product, $variantProduct);
+		$impressionBlock = Mage::app()->getLayout()->createBlock('gtmdatalayer/impression');
+		$impressionBlock->currentCategory = "Related Products"; // Despite being called "category", this is the value that goes into the 'list' key in the datalayer.
+		$impressionBlock->setProductCollection($relatedCollection);
 
-/*
-			if( !empty($variantProduct->getAttributeText('color')) ){
-				$productData['variant'] = $variantProduct->getAttributeText('color');
-			}
-*/
 
-		}
-		return $productData;
+		return $impressionBlock->getProductsData();
 	}
 
 	
 
-	
 }
+?>
