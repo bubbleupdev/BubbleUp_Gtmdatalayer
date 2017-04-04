@@ -27,7 +27,12 @@ class BubbleUp_Gtmdatalayer_Block_Cart extends BubbleUp_Gtmdatalayer_Block_Json
 			$dataLayers[] = $this->generateEventDataCartRemove($removed);
 		}
 
+        $pageIdentifier = Mage::app()->getFrontController()->getAction()->getFullActionName();
+        if($pageIdentifier == 'checkout_cart_index') {
+            $quote = Mage::getSingleton('checkout/cart')->getQuote();
+            $dataLayers[] = $this->getRemarketingQuoteContent($quote ,'cart');
 
+        }
 		return $dataLayers;
 	}
 
