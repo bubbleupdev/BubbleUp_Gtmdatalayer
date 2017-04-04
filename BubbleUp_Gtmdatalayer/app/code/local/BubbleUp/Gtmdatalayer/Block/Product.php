@@ -16,7 +16,8 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 	                ),*/
 	                "products" =>  array($this->getProductData()) // this function is inherited...
 	            )
-	        )
+	        ),
+            "google_tag_params" => $this->getRemarketingParameter()
 	    );
 
 	    $impressions = $this->getImpressions();
