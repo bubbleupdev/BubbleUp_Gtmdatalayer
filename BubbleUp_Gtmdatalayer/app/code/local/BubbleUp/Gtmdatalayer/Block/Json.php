@@ -91,12 +91,9 @@ class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
             $product_ids[] = $item->getSku();
         }
         return array(
-            "event" => "fireRemarketingTag",
-            "google_tag_params" => array(
-                "ecomm_prodid" => $product_ids,
-                "ecomm_pagetype" => $pagetype,
-                "ecomm_totalvalue" => $quote->getSubtotal(),
-            )
+            "ecomm_prodid" => $product_ids,
+            "ecomm_pagetype" => $pagetype,
+            "ecomm_totalvalue" => $quote->getSubtotal(),
         );
 
 
