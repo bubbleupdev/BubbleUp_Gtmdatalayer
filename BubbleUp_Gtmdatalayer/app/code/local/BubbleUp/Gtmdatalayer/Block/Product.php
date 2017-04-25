@@ -5,8 +5,16 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 		This block is for setting the snippet shown here:
 			https://developers.google.com/tag-manager/enhanced-ecommerce#details
 	*/
-
 	function getDatalayer() {
+        $product = Mage::registry('current_product');
+        $pagetype = "product";
+
+        if( Mage::getStoreConfig('google/gtmdatalayer/change_group_product') ) {
+            $product_type = $product->getTypeId();
+            if ($product_type == "grouped") {
+                $pagetype = "category";
+            }
+        }
 	    $dataLayer = array(
            "event" => "productDetail",
 	       "ecommerce" => array(
@@ -17,7 +25,9 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 	                "products" =>  array($this->getProductData()) // this function is inherited...
 	            )
 	        ),
-            "google_tag_params" => $this->getRemarketingParameter()
+            "ecomm_prodid" => $product->getSku(),
+            "ecomm_pagetype" => $pagetype,
+            "ecomm_totalvalue" => $product->getFinalPrice()
 	    );
 
 	    $impressions = $this->getImpressions();
