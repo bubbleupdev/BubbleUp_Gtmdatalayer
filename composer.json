@@ -1,7 +1,7 @@
 {
-    "name": "bubbleupdev/BubbleUp_Gtmdatalayer",
+    "name": "Webmasterei/BubbleUp_Gtmdatalayer",
     "type": "magento-module",
-    "homepage": "https://github.com/bubbleupdev/BubbleUp_Gtmdatalayer",
+    "homepage": "https://github.com/Webmasterei/BubbleUp_Gtmdatalayer.git",
     "description": "Adds GTM DataLayer variables and events to Magento for Enhanced eCommerce tracking",
     "require": {
         "magento-hackathon/magento-composer-installer": "*"
