@@ -83,7 +83,7 @@ class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
     function getRemarketingQuoteContent($quote, $pagetype){
 //$cart->getAllItems() to get ALL items, parent as well as child, configurable as well as it's simple associated item
         $items = $quote->getAllVisibleItems();
-        $product_ids = [];
+        $product_ids = array();
         //$totals = $quote->getTotals();
         //$rate = $quote->getData('base_to_quote_rate');
         //$subtotalIncTax = $quote->getSubtotal()/$rate;
