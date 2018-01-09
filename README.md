@@ -30,6 +30,9 @@ If enabled, the 2-letter country code, and the 2-letter region code will be adde
 * **Include 'Push Identify' feature**
 If enabled, turn on 'Push Identify' feature for authorized users (push on all pages: first name, last name and e-mail). If disabled, turn off.
 
+* **Include Google Optimize Anti-Flicker-Snippet**
+If enabled, the Google Optimize Anti-Flicker-Snippet is enabled before GTM execution.
+
 ### Layout stuff
 In order to have products list working on magento default template, you'll need to add the following: 
 
