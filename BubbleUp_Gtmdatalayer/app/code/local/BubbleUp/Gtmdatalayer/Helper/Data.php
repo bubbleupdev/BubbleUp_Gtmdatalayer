@@ -138,8 +138,4 @@ class BubbleUp_Gtmdatalayer_Helper_Data extends Mage_Core_Helper_Abstract
             "position": // Required. Dynamic. Numeric value.
         )*/
     }
-
-
-
-    
 }

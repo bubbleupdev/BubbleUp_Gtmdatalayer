@@ -9,7 +9,7 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 
 	function getDatalayer() {
 		$order = $this->getOrder();
-		
+        $dataLayers = [];
 		$orderData = array(
             'event' => 'purchase',
 		    "ecommerce" => array(
@@ -32,8 +32,14 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 			$orderData['ecommerce']['purchase']['actionField']['country'] = $order->getBillingAddress()->getCountry();
 		    $orderData['ecommerce']['purchase']['actionField']['state']   = $order->getBillingAddress()->getRegionCode();
 		}
+        if($orderData) {
+            $dataLayers[] = $orderData;
+        }
+        if($remarketingData = $this->getRemarketingQuoteContent($order ,'purchase')) {
+            $dataLayers[] = $remarketingData;
+        }
 
-		return $orderData;
+		return $dataLayers;
 	}
 
 	function getOrder() {

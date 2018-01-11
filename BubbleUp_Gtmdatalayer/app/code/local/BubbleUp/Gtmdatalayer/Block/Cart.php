@@ -10,7 +10,7 @@ class BubbleUp_Gtmdatalayer_Block_Cart extends BubbleUp_Gtmdatalayer_Block_Json
 	const SESSION_DATA_KEY_CART_REMOVE = 'product_from_shopping_cart';
 	
 	function getDatalayer() {
-		$dataLayers = [];
+		$dataLayers = array();
 
 		$added = $this->harvestDataFromSession(self::SESSION_DATA_KEY_CART_ADD);
 		if( $added ) {
@@ -27,7 +27,12 @@ class BubbleUp_Gtmdatalayer_Block_Cart extends BubbleUp_Gtmdatalayer_Block_Json
 			$dataLayers[] = $this->generateEventDataCartRemove($removed);
 		}
 
+        $pageIdentifier = Mage::app()->getFrontController()->getAction()->getFullActionName();
+        if($pageIdentifier == 'checkout_cart_index') {
+            $quote = Mage::getSingleton('checkout/cart')->getQuote();
+            $dataLayers[] = $this->getRemarketingQuoteContent($quote ,'cart');
 
+        }
 		return $dataLayers;
 	}
 

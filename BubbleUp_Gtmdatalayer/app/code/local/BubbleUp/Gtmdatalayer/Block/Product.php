@@ -5,8 +5,16 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 		This block is for setting the snippet shown here:
 			https://developers.google.com/tag-manager/enhanced-ecommerce#details
 	*/
-
 	function getDatalayer() {
+        $product = Mage::registry('current_product');
+        $pagetype = "product";
+
+        if( Mage::getStoreConfig('google/gtmdatalayer/change_group_product') ) {
+            $product_type = $product->getTypeId();
+            if ($product_type == "grouped") {
+                $pagetype = "category";
+            }
+        }
 	    $dataLayer = array(
            "event" => "productDetail",
 	       "ecommerce" => array(
@@ -16,7 +24,10 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 	                ),*/
 	                "products" =>  array($this->getProductData()) // this function is inherited...
 	            )
-	        )
+	        ),
+            "ecomm_prodid" => $product->getSku(),
+            "ecomm_pagetype" => $pagetype,
+            "ecomm_totalvalue" => $product->getFinalPrice()
 	    );
 
 	    $impressions = $this->getImpressions();
@@ -44,7 +55,7 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 		// Calling $collection->count() can cause a fatal error if $collection is not actually a Varien_Data_Collection_Db object.
 		// Count will just reutrn false or zero if this is the case.
 		if( count($relatedCollection) < 1 ) {
-			Mage::log("No related products were found for this page. No related impressions being added.");
+		//	Mage::log("No related products were found for this page. No related impressions being added.");
 			return;
 		}
 

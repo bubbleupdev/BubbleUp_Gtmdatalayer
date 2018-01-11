@@ -19,13 +19,8 @@ class BubbleUp_Gtmdatalayer_Block_Checkout extends BubbleUp_Gtmdatalayer_Block_J
                     ),
                     'products'    => Mage::helper('gtmdatalayer')->getLineItemData($quote)
                 )
-            )
+            ),
         );
     }
-
-
-    
-
-
 }
 ?>
