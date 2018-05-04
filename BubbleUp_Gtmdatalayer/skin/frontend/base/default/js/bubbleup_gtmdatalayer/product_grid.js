@@ -45,6 +45,8 @@
 			dataLayerData['eventCallback'] = function() {
 				document.location = redirectUrl
 			}
+
+			window.setTimeout(dataLayerData['eventCallback'], 1500);
 		}
 
 		dataLayer.push(dataLayerData);
