@@ -10,6 +10,18 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <gtm_container_tag translate="label">
+                            <label>GTM Tag</label>
+                            <comment>Set your GTM Container ID here</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <include_datalayer>1</include_datalayer>
+                            </depends>
+                        </gtm_container_tag>
                         <include_variant_id translate="label">
                             <label>Include Variant Id Sku</label>
                             <comment>Configurable products are reported based on their parent SKU, and the selected color (the variant.) Some custom tags may also need the actual SKU of the child product. Enable this option to include it as the key "variantId".</comment>
