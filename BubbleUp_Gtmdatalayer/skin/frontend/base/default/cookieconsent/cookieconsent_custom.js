@@ -34,7 +34,11 @@ function loadTagManager(gtm_id){
 
 function scrolling(el,trigger,activity){
     el.addEventListener("scroll", function(){
-        if(el.scrollY >= trigger && !activity && trigger > 0 ){
+        var scrolled = el.scrollTop;
+        if(!scrolled){
+            scrolled = el.scrollY;
+        }
+        if(el.scrollTop >= trigger && !activity && trigger > 0 ){
             activity = 1;
             createCookie("cookieconsent_status","allow",365);
             enableTracking();
