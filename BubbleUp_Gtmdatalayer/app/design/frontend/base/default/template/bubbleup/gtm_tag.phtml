@@ -72,26 +72,18 @@ $cookie_consent = array(
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                try {
-                    var scrollElement = document.querySelector("<?php echo $cookie_consent['activity_scroll_element']; ?>");
-                } catch (e) {
-                    scrollElement = document
+                <?php
+                if(!$selector = $cookie_consent['activity_scroll_element']){
+                    $selector = 0;
                 }
-                scrollElement.addEventListener("scroll", function(){
-                    if(scrollElement.scrollTop >= trigger && !activity && trigger > 0 ){
-                        activity = 1;
-                        createCookie("cookieconsent_status","allow",365);
-                        enableTracking();
-                        var banner = document.getElementsByClassName("cc-window");
-                        var i;
-                        for (i = 0; i < banner.length; i++) {
-                            banner[i].style.display = "none";
-                        }
-                    };
-                });
+                ?>
+                var selector = <?php echo $selector; ?>;
+                if(selector){
+                    scrolling(document.querySelector(selector),trigger,activity);
+                } else {
+                    scrolling(window,trigger,activity);
+                }
             }, false);
-            //scrollElement.onscroll = function(){alert("Scrolled")};
-            /**/
         }
     </script>
     <script>

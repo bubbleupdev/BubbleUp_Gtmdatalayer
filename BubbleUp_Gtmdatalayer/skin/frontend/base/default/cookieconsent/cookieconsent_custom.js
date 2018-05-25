@@ -32,6 +32,21 @@ function loadTagManager(gtm_id){
     })(window, document, 'script', 'dataLayer', gtm_id);
 };
 
+function scrolling(el,trigger,activity){
+    el.addEventListener("scroll", function(){
+        if(el.scrollY >= trigger && !activity && trigger > 0 ){
+            activity = 1;
+            createCookie("cookieconsent_status","allow",365);
+            enableTracking();
+            var banner = document.getElementsByClassName("cc-window");
+            var i;
+            for (i = 0; i < banner.length; i++) {
+                banner[i].style.display = "none";
+            }
+        };
+    });
+};
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
