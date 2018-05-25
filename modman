@@ -18,3 +18,6 @@ BubbleUp_Gtmdatalayer/skin/frontend/base/default/js/bubbleup_gtmdatalayer/checko
 BubbleUp_Gtmdatalayer/skin/frontend/base/default/js/bubbleup_gtmdatalayer/product_grid.js skin/frontend/base/default/js/bubbleup_gtmdatalayer/product_grid.js
 BubbleUp_Gtmdatalayer/app/etc/modules/BubbleUp_Gtmdatalayer.xml app/etc/modules/BubbleUp_Gtmdatalayer.xml
 BubbleUp_Gtmdatalayer/app/design/frontend/base/default/template/bubbleup/gtm_tag.phtml app/design/frontend/base/default/template/bubbleup/gtm_tag.phtml
+BubbleUp_Gtmdatalayer/skin/frontend/base/default/cookieconsent/cookieconsent.min.css /skin/frontend/base/default/cookieconsent/cookieconsent.min.css
+BubbleUp_Gtmdatalayer/skin/frontend/base/default/cookieconsent/cookieconsent.min.js /skin/frontend/base/default/cookieconsent/cookieconsent.min.js
+BubbleUp_Gtmdatalayer/skin/frontend/base/default/cookieconsent/cookieconsent_custom.js skin/frontend/base/default/cookieconsent/cookieconsent_custom.js
