@@ -18,6 +18,7 @@ $cookie_consent = array(
     "more_link" => $this->getBaseUrl().Mage::getStoreConfig('google/cookie_consent/more_link'),
     "compliance_type" => Mage::getStoreConfig('google/cookie_consent/compliance_type'),
     "activity_scroll" => Mage::getStoreConfig('google/cookie_consent/activity_scroll'),
+    "activity_scroll_element" => Mage::getStoreConfig('google/cookie_consent/activity_scroll_element'),
     "activity_click" => Mage::getStoreConfig('google/cookie_consent/activity_click'),
     "deletecookies" => Mage::getStoreConfig('google/cookie_consent/deletecookies'),
     "userdefined_enable_functions" => Mage::getStoreConfig('google/cookie_consent/userdefined_enable_functions'),
@@ -53,7 +54,10 @@ $cookie_consent = array(
             loadOptimizeTag("<?php echo $gtm_id ?>");
             <?php endif; ?>
             loadTagManager("<?php echo $gtm_id ?>");
-            <?php echo $cookie_consent["userdefined_enable_functions"]; ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                <?php echo $cookie_consent["userdefined_enable_functions"]; ?>
+            }, false);
+
         }
         function deleteCookies(){
             <?php echo $cookie_consent["deletecookies"]; ?>
@@ -66,18 +70,28 @@ $cookie_consent = array(
             if(<?php echo $cookie_consent["activity_scroll"] ;?>){
                 trigger = <?php echo $cookie_consent["activity_scroll"] ;?>;
             }
-            window.onscroll = function (e) {
-                if(window.scrollY >= trigger && !activity && trigger > 0 ){
-                    activity = 1;
-                    createCookie("cookieconsent_status","allow",365);
-                    enableTracking();
-                    var banner = document.getElementsByClassName("cc-window");
-                    var i;
-                    for (i = 0; i < banner.length; i++) {
-                        banner[i].style.display = "none";
-                    }
-                };
-            };
+
+            document.addEventListener('DOMContentLoaded', function() {
+                try {
+                    var scrollElement = document.querySelector("<?php echo $cookie_consent['activity_scroll_element']; ?>");
+                } catch (e) {
+                    scrollElement = document
+                }
+                scrollElement.addEventListener("scroll", function(){
+                    if(scrollElement.scrollTop >= trigger && !activity && trigger > 0 ){
+                        activity = 1;
+                        createCookie("cookieconsent_status","allow",365);
+                        enableTracking();
+                        var banner = document.getElementsByClassName("cc-window");
+                        var i;
+                        for (i = 0; i < banner.length; i++) {
+                            banner[i].style.display = "none";
+                        }
+                    };
+                });
+            }, false);
+            //scrollElement.onscroll = function(){alert("Scrolled")};
+            /**/
         }
     </script>
     <script>
