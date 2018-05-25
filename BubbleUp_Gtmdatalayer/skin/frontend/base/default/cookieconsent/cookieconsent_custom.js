@@ -38,7 +38,6 @@ function scrolling(el,trigger,activity){
         if(!scrolled){
             scrolled = el.scrollY;
         }
-        console.log(scrolled);
         if(scrolled >= trigger && !activity && trigger > 0 ){
             activity = 1;
             createCookie("cookieconsent_status","allow",365);
