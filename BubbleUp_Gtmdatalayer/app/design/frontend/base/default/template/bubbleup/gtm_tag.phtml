@@ -77,7 +77,7 @@ $cookie_consent = array(
                     $selector = 0;
                 }
                 ?>
-                var selector = "<?php echo $selector; ?>";
+                var selector = <?php echo $selector; ?>;
                 if(selector){
                     scrolling(document.querySelector(selector),trigger,activity);
                 } else {
