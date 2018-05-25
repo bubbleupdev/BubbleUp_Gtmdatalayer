@@ -72,12 +72,12 @@ $cookie_consent = array(
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                <?php
-                if(!$selector = $cookie_consent['activity_scroll_element']){
-                    $selector = 0;
-                }
-                ?>
-                var selector = <?php echo $selector; ?>;
+                <?php  if(!$selector = $cookie_consent['activity_scroll_element']):?>
+                var selector = 0;
+                <?php else: ?>
+                var selector = "<?php echo $selector; ?>";
+                <?php endif; ?>
+
                 if(selector){
                     scrolling(document.querySelector(selector),trigger,activity);
                 } else {
