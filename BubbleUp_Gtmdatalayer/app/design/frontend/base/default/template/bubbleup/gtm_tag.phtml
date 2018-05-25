@@ -1,23 +1,170 @@
 <?php
 $gtm_id = Mage::getStoreConfig('google/gtmdatalayer/gtm_container_tag');
 $optimize_yesno = Mage::getStoreConfig('google/gtmdatalayer/optimize_yesno');
+$activity_scroll = (!Mage::getStoreConfig('google/cookie_consent/activity_scroll')) ? 0 : Mage::getStoreConfig('google/cookie_consent/activity_scroll');
+# Cookie Consent Options
+$cookie_consent = array(
+    "enable" => Mage::getStoreConfig('google/cookie_consent/enable_cookie_consent'),
+    "layout" => array(
+        "position" => Mage::getStoreConfig('google/cookie_consent/position'),
+        "layout" => Mage::getStoreConfig('google/cookie_consent/layout'),
+        "color" => array(
+            "banner" => Mage::getStoreConfig('google/cookie_consent/color_banner'),
+            "button" => Mage::getStoreConfig('google/cookie_consent/color_button'),
+            "banner_text" => Mage::getStoreConfig('google/cookie_consent/color_banner_text'),
+            "button_text" => Mage::getStoreConfig('google/cookie_consent/color_button_text')
+        ),
+    ),
+    "more_link" => $this->getBaseUrl().Mage::getStoreConfig('google/cookie_consent/more_link'),
+    "compliance_type" => Mage::getStoreConfig('google/cookie_consent/compliance_type'),
+    "activity_scroll" => Mage::getStoreConfig('google/cookie_consent/activity_scroll'),
+    "activity_click" => Mage::getStoreConfig('google/cookie_consent/activity_click'),
+    "deletecookies" => Mage::getStoreConfig('google/cookie_consent/deletecookies'),
+    "userdefined_enable_functions" => Mage::getStoreConfig('google/cookie_consent/userdefined_enable_functions'),
+    "text" => array(
+        "message" => Mage::getStoreConfig('google/cookie_consent/text_message'),
+        "button_dismiss" => Mage::getStoreConfig('google/cookie_consent/button_dismiss_text'),
+        "button_deny" => Mage::getStoreConfig('google/cookie_consent/button_deny_text'),
+        "button_accept" => Mage::getStoreConfig('google/cookie_consent/button_accept_text'),
+        "policy_link" => Mage::getStoreConfig('google/cookie_consent/policy_link_text')
+    ),
+
+);
 ?>
-<?php if($optimize_yesno) : ?>
-    <style>.async-hide { opacity: 0 !important} </style>
-    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-            h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-            (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-        })(window,document.documentElement,'async-hide','dataLayer',4000,
-            {'<?php echo $gtm_id ?>':true});</script>
-<?php endif;?>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','<?php echo $gtm_id; ?>');</script>
-<!-- End Google Tag Manager -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $gtm_id; ?>"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<style>
+    .async-hide {
+        opacity: 0 !important
+    }
+
+</style>
+<?php if ($cookie_consent["enable"]): ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('cookieconsent/cookieconsent.min.css') ?>"/>
+    <script src="<?php echo $this->getSkinUrl('cookieconsent/cookieconsent.min.js') ?>"></script>
+    <script src="<?php echo $this->getSkinUrl('cookieconsent/cookieconsent_custom.js') ?>"></script>
+    <style>
+        .cc-window.cc-banner{
+            z-index:999999999;
+        }
+    </style>
+    <script>
+        function enableTracking(){
+            localStorage.setItem('allowtracking', 'true');
+            <?php if ($optimize_yesno) : ?>
+            loadOptimizeTag("<?php echo $gtm_id ?>");
+            <?php endif; ?>
+            loadTagManager("<?php echo $gtm_id ?>");
+            <?php echo $cookie_consent["userdefined_enable_functions"]; ?>
+        }
+        function deleteCookies(){
+            <?php echo $cookie_consent["deletecookies"]; ?>
+            setTimeout(function(){ window.location.reload(true) }, 100);
+            alert("All cookies deleted");
+        }
+        function changeCookieOnUserActivity(){
+            var activity = 0;
+            var trigger = 0;
+            if(<?php echo $cookie_consent["activity_scroll"] ;?>){
+                trigger = <?php echo $cookie_consent["activity_scroll"] ;?>;
+            }
+            window.onscroll = function (e) {
+                if(window.scrollY >= trigger && !activity && trigger > 0 ){
+                    activity = 1;
+                    createCookie("cookieconsent_status","allow",365);
+                    enableTracking();
+                    var banner = document.getElementsByClassName("cc-window");
+                    var i;
+                    for (i = 0; i < banner.length; i++) {
+                        banner[i].style.display = "none";
+                    }
+                };
+            };
+        }
+    </script>
+    <script>
+        var consent_status = getCookie("cookieconsent_status");
+    </script>
+    <script>
+        window.addEventListener("load", function () {
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "<?php echo $cookie_consent["layout"]["color"]["banner"]; ?>",
+                        "text": "<?php echo $cookie_consent["layout"]["color"]["banner_text"]; ?>"
+                    },
+                    "button": {
+                        "background": "transparent",
+                        "text": "<?php echo $cookie_consent["layout"]["color"]["button_text"]; ?>",
+                        "border": "<?php echo $cookie_consent["layout"]["color"]["button"]; ?>"
+                    }
+                },
+                "position": "<?php echo $cookie_consent["layout"]["position"]; ?>",
+                "type": "<?php echo $cookie_consent["compliance_type"]; ?>",
+                "content": {
+                    "message": "<?php echo $cookie_consent["text"]["message"]; ?>",
+                    "dismiss": "<?php echo $cookie_consent["text"]["button_dismiss"]; ?>",
+                    "deny": "<?php echo $cookie_consent["text"]["button_deny"]; ?>",
+                    "allow": "<?php echo $cookie_consent["text"]["button_accept"]; ?>",
+                    "link": "<?php echo $cookie_consent["text"]["policy_link"]; ?>",
+                    "href": "<?php echo $cookie_consent["more_link"]; ?>"
+                },
+                onInitialise: function (status) {
+                    var type = this.options.type;
+                    var didConsent = this.hasConsented();
+                    if (type == 'opt-in' && didConsent) {
+                        enableTracking();
+                    }
+                    if (type == 'opt-out' && !didConsent) {
+                        // disable cookies
+                    }
+                },
+
+                onStatusChange: function(status, chosenBefore) {
+                    var type = this.options.type;
+                    var didConsent = this.hasConsented();
+                    if (type == 'opt-in' && didConsent) {
+                        enableTracking();
+                    }
+                    if (type == 'opt-out' && !didConsent) {
+                        // disable cookies
+                    }
+                },
+
+                onRevokeChoice: function() {
+                    var type = this.options.type;
+                    if (type == 'opt-in') {
+                        deleteCookies()
+                    }
+                    if (type == 'opt-out') {
+                        deleteCookies()
+                    }
+                },
+            })
+        });
+    </script>
+
+<?php else: //cookie_consent["enable"]  ?>
+    <?php if ($optimize_yesno) : ?>
+        <style>.async-hide {
+                opacity: 0 !important
+            } </style>
+        <script>
+            loadOptimizeTag();
+        </script>
+    <?php endif; ?>
+    <!-- Google Tag Manager -->
+    <script>
+        loadTagManager();
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $gtm_id; ?>"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<?php endif; //cookie_consent["enable"]  ?>
+
+
+<script>
+    changeCookieOnUserActivity();
+</script>

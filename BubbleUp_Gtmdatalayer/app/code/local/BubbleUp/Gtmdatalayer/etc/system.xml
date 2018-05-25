@@ -109,6 +109,248 @@
                         </optimize_yesno>
                     </fields>
                 </gtmdatalayer>
+                <cookie_consent>
+                    <label>Cookie Consent</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable_cookie_consent translate="label">
+                            <label>Enable Cookie Banner</label>
+                            <comment>Enable the cookie consent banner</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_cookie_consent>
+                        <position>
+                            <visible>1</visible>
+                            <label>Position des Popups</label>
+                            <comment>You can put following values here: "top", "bottom"</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </position>
+                        <layout>
+                            <visible>1</visible>
+                            <label>Layout of cookie banners</label>
+                            <comment>You can put following values here: "block", "classic", "edgelesse", "wire"</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>20</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </layout>
+                        <color_banner>
+                            <visible>1</visible>
+                            <label>Color of the cookie banner</label>
+                            <comment>You can put following any Hex Color Code Value here.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>30</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </color_banner>
+                        <color_button>
+                            <visible>1</visible>
+                            <label>Color of the cookie banner button</label>
+                            <comment>You can put following any Hex Color Code Value here.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </color_button>
+                        <color_banner_text>
+                            <visible>1</visible>
+                            <label>Color of the cookie banner text</label>
+                            <comment>You can put following any Hex Color Code Value here.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>50</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </color_banner_text>
+                        <color_button_text>
+                            <visible>1</visible>
+                            <label>Color of the button text</label>
+                            <comment>You can put following any Hex Color Code Value here.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>60</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </color_button_text>
+                        <more_link>
+                            <visible>1</visible>
+                            <label>Path to the GDPR info page.</label>
+                            <comment>You can put following any Hex Color Code Value here.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>70</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </more_link>
+                        <compliance_type>
+                            <visible>1</visible>
+                            <label>Compliance Type</label>
+                            <comment><![CDATA[Values:"opt-in","opt-out", leave blank for info. Learn more about compliance here: <a target="_blank" href="https://cookieconsent.insites.com/documentation/compliance/">Compliance Types</a>]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>80</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </compliance_type>
+                        <activity_scroll>
+                            <visible>1</visible>
+                            <label>Allow cookies on scroll activity</label>
+                            <comment><![CDATA[Consent to cookies by scrolling the page (value on how many pixels have to be scrolled)]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>80</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </activity_scroll>
+                        <activity_click>
+                            <visible>1</visible>
+                            <label>Allow cookie consent on click activity</label>
+                            <comment><![CDATA[Consent to cookies by clicking any element on the page (besides the deny button)]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>80</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </activity_click>
+                        <text_message>
+                            <visible>1</visible>
+                            <label>Custom Banner Text</label>
+                            <comment><![CDATA[Text of the cookie Banner.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>90</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </text_message>
+                        <button_dismiss_text>
+                            <visible>1</visible>
+                            <label>Dismiss button text</label>
+                            <comment><![CDATA[Button text for the dismiss of the Banner]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>100</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </button_dismiss_text>
+                        <button_deny_text>
+                            <visible>1</visible>
+                            <label>Deny cookies button text</label>
+                            <comment><![CDATA[Button text to deny cookies.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>110</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </button_deny_text>
+                        <button_accept_text>
+                            <visible>1</visible>
+                            <label>Allow cookies button text</label>
+                            <comment><![CDATA[Button text to accept cookies.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>120</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </button_accept_text>
+                        <policy_link_text>
+                            <visible>1</visible>
+                            <label>Policy link text</label>
+                            <comment><![CDATA[Relative link to the coookie policy page.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>130</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </policy_link_text>
+                        <deletecookies>
+                            <visible>1</visible>
+                            <label>List of cookies to delete</label>
+                            <comment>Put one per line. Syntax: clearCookie('_ga','. yourdomain.com','/');</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </deletecookies>
+                        <userdefined_enable_functions>
+                            <visible>1</visible>
+                            <label>Userdefined "Enable Tracking" functions</label>
+                            <comment>You can put here userdefined JS Functions that will trigger on "enable Tracking" event.</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                            <depends>
+                                <enable_cookie_consent>1</enable_cookie_consent>
+                            </depends>
+                        </userdefined_enable_functions>
+                    </fields>
+                </cookie_consent>
             </groups>
         </google>
     </sections>

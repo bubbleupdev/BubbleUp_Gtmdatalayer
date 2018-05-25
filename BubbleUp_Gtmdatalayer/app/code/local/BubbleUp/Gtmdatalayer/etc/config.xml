@@ -6,6 +6,20 @@
                 <include_datalayer>1</include_datalayer>
                 <include_push_identify>0</include_push_identify>
             </gtmdatalayer>
+            <cookie_consent>
+                <more_link>https://cookiesandyou.com/</more_link>
+                <text_message>This website uses cookies to ensure you get the best experience on our website.</text_message>
+                <button_dismiss_text>Got it!</button_dismiss_text>
+                <button_deny_text>Refuse cookies</button_deny_text>
+                <button_accept_text>Allow cookies</button_accept_text>
+                <policy_link_text>Learn more</policy_link_text>
+                <color_banner>#edeff5</color_banner>
+                <color_button>#4b81e8</color_button>
+                <color_banner_text>#838391</color_banner_text>
+                <color_button_text>#4b81e8</color_button_text>
+                <color_button_text>#4b81e8</color_button_text>
+                <compliance_type>opt-out</compliance_type>
+            </cookie_consent>
         </google>
     </default>
     <modules>
@@ -38,33 +52,33 @@
         </resources>
 
         <sales>
-        <!-- This gets added by an observer now.
-            <order>
-                <item>
-                    <product_attributes>
-                        <color />
-                    </product_attributes>
-                </item>
-            </order>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <color />
-                    </product_attributes>
-                </item>
-            </quote>
-        -->
+            <!-- This gets added by an observer now.
+                <order>
+                    <item>
+                        <product_attributes>
+                            <color />
+                        </product_attributes>
+                    </item>
+                </order>
+                <quote>
+                    <item>
+                        <product_attributes>
+                            <color />
+                        </product_attributes>
+                    </item>
+                </quote>
+            -->
         </sales>
     </global>
     <frontend>
         <routers>
-          <bubbleup_gtmdatalayer>
-              <use>standard</use>
-              <args>
-                 <module>BubbleUp_Gtmdatalayer</module>
-                 <frontName>gtmdatalayer</frontName>
-              </args>
-           </bubbleup_gtmdatalayer>
+            <bubbleup_gtmdatalayer>
+                <use>standard</use>
+                <args>
+                    <module>BubbleUp_Gtmdatalayer</module>
+                    <frontName>gtmdatalayer</frontName>
+                </args>
+            </bubbleup_gtmdatalayer>
         </routers>
         <layout>
             <updates>
@@ -99,9 +113,9 @@
                     </gtmdatalayer_sales_quote_config_get_product_attributes>
                 </observers>
             </sales_quote_config_get_product_attributes>
-            
-            
-           
+
+
+
         </events>
     </frontend>
 
