@@ -65,11 +65,13 @@ $cookie_consent = array(
             alert("All cookies deleted");
         }
         function changeCookieOnUserActivity(){
+            <?php if(!$trigger=$cookie_consent["activity_scroll"]): ?>
             var activity = 0;
             var trigger = 0;
-            if(<?php echo $cookie_consent["activity_scroll"] ;?>){
-                trigger = <?php echo $cookie_consent["activity_scroll"] ;?>;
-            }
+            <?php else: ?>
+            var activity = 1;
+            var trigger = <?php echo $trigger; ?>
+            <?php endif; ?>
 
             document.addEventListener('DOMContentLoaded', function() {
                 <?php  if(!$selector = $cookie_consent['activity_scroll_element']):?>
@@ -88,6 +90,7 @@ $cookie_consent = array(
     </script>
     <script>
         var consent_status = getCookie("cookieconsent_status");
+        var compliance_type = "<?php echo $cookie_consent["compliance_type"]; ?>";
     </script>
     <script>
         window.addEventListener("load", function () {
@@ -116,11 +119,12 @@ $cookie_consent = array(
                 onInitialise: function (status) {
                     var type = this.options.type;
                     var didConsent = this.hasConsented();
+                    var consent_status = getCookie("cookieconsent_status");
                     if (type == 'opt-in' && didConsent) {
                         enableTracking();
                     }
-                    if (type == 'opt-out' && !didConsent) {
-                        // disable cookies
+                    if (type == 'opt-out' && consent_status!="deny") {
+                        enableTracking();
                     }
                 },
 
@@ -132,6 +136,7 @@ $cookie_consent = array(
                     }
                     if (type == 'opt-out' && !didConsent) {
                         // disable cookies
+                        deleteCookies();
                     }
                 },
 
@@ -146,6 +151,11 @@ $cookie_consent = array(
                 },
             })
         });
+        // Opt-Out Tracking
+        if(compliance_type=="opt-out"){
+            if(consent_status!="deny")
+            enableTracking();
+        }
     </script>
 
 <?php else: //cookie_consent["enable"]  ?>
