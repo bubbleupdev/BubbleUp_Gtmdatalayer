@@ -5,12 +5,14 @@
             <gtmdatalayer>
                 <include_datalayer>1</include_datalayer>
                 <include_push_identify>0</include_push_identify>
+                <consent_variable_name>statisticsCookieConsentGiven</consent_variable_name>
+                <require_consent>0</require_consent>
             </gtmdatalayer>
         </google>
     </default>
     <modules>
         <BubbleUp_Gtmdatalayer>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </BubbleUp_Gtmdatalayer>
     </modules>
     <global>

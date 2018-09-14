@@ -1,0 +1,27 @@
+<?php
+
+	$containerId = $this->getData('container_id');
+	$containerIdJavascript = json_encode($containerId);
+	$containerIdUrl = urlencode($containerId);
+
+	$consentVariable = $this->getData('consent_variable_name');
+	$consentVariable = json_encode($consentVariable);
+
+	$consentRequired = intval($this->getData('consent_required'));
+	if($consentRequired) {
+		$consentCondition = "typeof window[$consentVariable] !== 'undefined' && window[$consentVariable] == true";
+	} else {
+		$consentCondition = 1; // If no consent is required, short circuit this check...
+	}
+?>
+<script>
+if(<?php echo $consentCondition ?>) {
+	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',<?php echo $containerIdJavascript; ?>);
+}
+</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $containerIdUrl; ?>"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

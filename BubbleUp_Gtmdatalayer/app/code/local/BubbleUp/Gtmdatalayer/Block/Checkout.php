@@ -1,13 +1,14 @@
-<?php   
+<?php 
 class BubbleUp_Gtmdatalayer_Block_Checkout extends BubbleUp_Gtmdatalayer_Block_Json
-{   
+{
     /*
         This block is for setting the snippet shown here:
             https://developers.google.com/tag-manager/enhanced-ecommerce#purchases
     */
 
 
-    function getDatalayer() {
+    public function getDatalayer()
+    {
         $quote = Mage::getSingleton('checkout/cart')->getQuote();
 
         return array(
@@ -22,10 +23,4 @@ class BubbleUp_Gtmdatalayer_Block_Checkout extends BubbleUp_Gtmdatalayer_Block_J
             )
         );
     }
-
-
-    
-
-
 }
-?>

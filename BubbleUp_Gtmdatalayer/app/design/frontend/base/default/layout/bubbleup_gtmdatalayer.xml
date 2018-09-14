@@ -8,7 +8,9 @@
         </reference>
 
         <reference name="after_body_start">
-            <block type="core/template" name="bubbleup_gtm_tag" template="bubbleup/gtm_tag.phtml" before="-" />
+            <block type="gtmdatalayer/container" name="bubbleup_gtm_tag" before="-" >
+                <!-- <action method="setTagTemplate"><template>bubbleup/gtm_tag.phtml</template></action> Example of how one can set their own template... -->
+            </block>
         </reference>
 
     </default>
