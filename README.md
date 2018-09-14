@@ -28,9 +28,6 @@ If enabled, the 2-letter country code, and the 2-letter region code will be adde
 * **Include 'Push Identify' feature**
 If enabled, turn on 'Push Identify' feature for authorized users (push on all pages: first name, last name and e-mail). If disabled, turn off.
 
-* **Include 'Push Identify' feature**
-If enabled, turn on 'Push Identify' feature for authorized users (push on all pages: first name, last name and e-mail). If disabled, turn off.
-
 * **Require Cookie Consent** (for GDPR compliance)
 The module can integrate with a 3rd party GDPR consent solution, but does not provide any consent flow of its own. You can enable "Require Cookie Consent" to force the module to check a variable for truthiness before loading the container. By default, that variable is `statisticsCookieConsentGiven`. This variable name can also be changed from the configuration.
 
