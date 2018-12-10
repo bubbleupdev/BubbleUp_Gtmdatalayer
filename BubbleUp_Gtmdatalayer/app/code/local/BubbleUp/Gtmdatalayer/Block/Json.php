@@ -5,15 +5,13 @@ class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
 	function getProductData($product = false) {
 		if( $product === false )
 			$product = Mage::registry('current_product');
-
 		return array( // Optional. Dynamic.
             "name"         => $product->getName(), // Required. Dynamic. String value.
             "id"           => $product->getSku(), // Required. Dynamic. String value.
-            "price"        => $product->getFinalPrice(), // Required. Dynamic. String value.
+            "price"        => Mage::helper('gtmdatalayer/data')->getTrackingPrice($product), // Required. Dynamic. String value.
             "category"     => Mage::helper('gtmdatalayer/data')->getProductCategories($product), // Required. Dynamic. String value.
             "magento_id"   => $product->getId(), // Included so that we can look up product data by ID for product click support
-
-            "brand"        =>    $product->getAttributeText('manufacturer'), // Required. Dynamic. String value.
+            "brand"        => $product->getAttributeText(Mage::helper('gtmdatalayer/data')->getBrandAttribute()), // Required. Dynamic. String value.
         /*    "variant"      =>    '', // Required. Dynamic. String value.
             "quantity"     =>    '', // Required. Dynamic. Numeric value.
             "coupon"       =>    '', // Required. Dynamic. String value.
@@ -77,7 +75,7 @@ class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
         return array(
             "ecomm_prodid" => $product->getSku(),
             "ecomm_pagetype" => 'product',
-            "ecomm_totalvalue" => $product->getFinalPrice(),
+            "ecomm_totalvalue" => Mage::helper('gtmdatalayer/data')->getTrackingPrice($product),
         );
     }
     function getRemarketingQuoteContent($quote, $pagetype){
@@ -93,9 +91,10 @@ class BubbleUp_Gtmdatalayer_Block_Json extends Mage_Core_Block_Template
         return array(
             "ecomm_prodid" => $product_ids,
             "ecomm_pagetype" => $pagetype,
-            "ecomm_totalvalue" => $quote->getSubtotal(),
+            "ecomm_totalvalue" => Mage::helper('gtmdatalayer/data')->getTrackingSubtotal($quote),
         );
 
 
     }
 }
+

@@ -82,6 +82,55 @@ class BubbleUp_Gtmdatalayer_Helper_Data extends Mage_Core_Helper_Abstract
         return $variantData;
     }
 
+    function getBrandAttribute(){
+        $brand = Mage::getStoreConfig('google/gtmdatalayer/brand_attribute');
+        if(!$brand){
+            $brand = 'manufacturer';
+        }
+        return $brand;
+    }
+
+    function getTrackingPrice($product){
+        if(Mage::getStoreConfig('google/gtmdatalayer/pricing')=="taxfree"){
+           $price =  Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), false );
+        } else {
+            $price = (double)number_format($product->getFinalPrice(),2);
+        }
+        return $price;
+
+    }
+    function getTrackingSubtotal($quote){
+        if(Mage::getStoreConfig('google/gtmdatalayer/pricing')=="taxfree"){
+            $subtotal =  round($quote->getSubtotal(),2);
+        } else {
+            $subtotal =  round($quote->getGrandTotal(),2);
+        }
+        return $subtotal;
+    }
+    function getOrderRevenue($order){
+        if(Mage::getStoreConfig('google/gtmdatalayer/pricing')=="taxfree"){
+            $revenue =  round($order->getSubtotal(),2);
+        } else {
+            $revenue = round($order->getGrandTotal(),2);
+        }
+        return $revenue;
+    }
+    function getOrderTax($order){
+        if(Mage::getStoreConfig('google/gtmdatalayer/pricing')=="taxfree"){
+            $taxamount = 0;
+        } else {
+            $taxamount = round($order->getTaxAmount(),2);
+        }
+        return $taxamount;
+    }
+    function getOrderShipment($order){
+        if(Mage::getStoreConfig('google/gtmdatalayer/pricing')=="taxfree"){
+            $shipping = 0;
+        } else {
+            $shipping = round($order->getBaseShippingAmount(),2);
+        }
+        return $shipping;
+    }
     function getLineItemData($order) {
     	// To get the product color, we need the child product.
         $childItems = $this->collectChildrenProducts($order);
@@ -91,13 +140,14 @@ class BubbleUp_Gtmdatalayer_Helper_Data extends Mage_Core_Helper_Abstract
 
         $toReturn = array();
         foreach ($orderItems as $item) {
+            $product = $item->getProduct();
             $itemData = array(
                 "name"         => $item->getName(), // Required. Dynamic. String value.
-                "id"           => $item->getProduct()->getSku(), // Required. Dynamic. String value.
-                "price"        => (double)number_format($item->getBasePrice(),2,'.',''), // Required. Dynamic. String value.
+                "id"           => $product->getSku(), // Required. Dynamic. String value.
+                "price"        => Mage::helper('gtmdatalayer/data')->getTrackingPrice($product), // Required. Dynamic. String value.
                 "quantity"     => (int)$item->getQtyOrdered() ?: (int)$item->getQty(), // In the cart, there is no qty_ordered; only qty.
                 "category"     => $this->getProductCategories($item->getProduct()), // Required. Dynamic. String value.
-
+                "brand"        => $product->getAttributeText(Mage::helper('gtmdatalayer/data')->getBrandAttribute()), // Required. Dynamic. String value.
             );
 
             
@@ -139,3 +189,4 @@ class BubbleUp_Gtmdatalayer_Helper_Data extends Mage_Core_Helper_Abstract
         )*/
     }
 }
+

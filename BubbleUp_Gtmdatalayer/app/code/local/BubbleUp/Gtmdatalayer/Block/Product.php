@@ -27,7 +27,7 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 	        ),
             "ecomm_prodid" => $product->getSku(),
             "ecomm_pagetype" => $pagetype,
-            "ecomm_totalvalue" => $product->getFinalPrice()
+            "ecomm_totalvalue" => Mage::helper('gtmdatalayer/data')->getTrackingPrice($product)
 	    );
 
 	    $impressions = $this->getImpressions();
@@ -71,3 +71,4 @@ class BubbleUp_Gtmdatalayer_Block_Product extends BubbleUp_Gtmdatalayer_Block_Js
 
 }
 ?>
+

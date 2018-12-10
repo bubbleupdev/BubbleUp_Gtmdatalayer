@@ -16,12 +16,10 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 		        "purchase" => array( // Optional. Dynamic.
 		            "actionField" => array( // Optional. Dynamic.
 		                "id"          => $order->getIncrementId(), // Optional. Dynamic. String value.
-		             //   "affiliation" => , // Optional. Static. String value.
-		                "revenue"     => round($order->getBaseGrandTotal(),2), // Optional. Dynamic. Numeric value.
-		                "tax"         => round($order->getBaseTaxAmount(),2), // Optional. Dynamic. Numeric value.
-		                "shipping"    => round($order->getBaseShippingAmount(),2), // Optional. Dynamic. Numeric value.
-		                "coupon"      =>  $order->getCouponCode()// Optional. Dynamic. String value.
-
+		                "revenue"     => Mage::helper('gtmdatalayer/data')->getOrderRevenue($order), // Optional. Dynamic. Numeric value.
+		                "tax"         => Mage::helper('gtmdatalayer/data')->getOrderTax($order), // Optional. Dynamic. Numeric value.
+		                "shipping"    => Mage::helper('gtmdatalayer/data')->getOrderShipment($order), // Optional. Dynamic. Numeric value.
+		                "coupon"      => $order->getCouponCode()// Optional. Dynamic. String value.
 		            ),
 		            "products" => Mage::helper('gtmdatalayer')->getLineItemData($order)
 		        )
@@ -49,3 +47,4 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 
 }
 ?>
+

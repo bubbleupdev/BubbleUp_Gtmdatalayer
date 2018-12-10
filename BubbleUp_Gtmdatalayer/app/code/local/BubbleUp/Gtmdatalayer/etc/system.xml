@@ -107,6 +107,25 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </optimize_yesno>
+                        <brand_attribute>
+                            <label>Magento Brand Attribute</label>
+                            <comment>Attribut name of an dropdown attribute setting brand in this shop.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </brand_attribute>
+                        <pricing>
+                            <visible>1</visible>
+                            <label>Pricing Opion</label>
+                            <comment>Type "taxfree" to use net pricing. Otherwise the current price is used. This option disables the tracking of tax and shipping.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>800</sort_order>
+                        </pricing>
                     </fields>
                 </gtmdatalayer>
                 <cookie_consent>
