@@ -25,6 +25,10 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 		        )
 		    )
 		);
+		if( Mage::getStoreConfig('google/gtmdatalayer/include_uid_anonymus') ) {
+			$orderData['customer'] = hash('md5',$order->getData('customer_email'));
+		}
+
 
 		if( Mage::getStoreConfig('google/gtmdatalayer/include_billing_region')) {
 			$orderData['ecommerce']['purchase']['actionField']['country'] = $order->getBillingAddress()->getCountry();
@@ -47,4 +51,3 @@ class BubbleUp_Gtmdatalayer_Block_Conversion extends BubbleUp_Gtmdatalayer_Block
 
 }
 ?>
-
