@@ -2,6 +2,9 @@
 <layout version="1.0">
     <default>
         <reference name="head">
+            <action method="addItem" ifconfig="google/cookie_consent/enable_cookie_consent"><type>skin_css</type><name>cookieconsent/cookieconsent.min.css</name></action>
+            <action method="addItem" ifconfig="google/cookie_consent/enable_cookie_consent"><type>skin_js</type><name>cookieconsent/cookieconsent.min.js</name></action>
+            <action method="addItem" ifconfig="google/cookie_consent/enable_cookie_consent"><type>skin_js</type><name>cookieconsent/cookieconsent_custom.js</name></action>
             <block type="gtmdatalayer/main" name="gtmdatalayer_master" after="-" />
             <block type="gtmdatalayer/cart" after="gtmdatalayer_master" />
             <block type="gtmdatalayer/identify" after="gtmdatalayer_master" />
