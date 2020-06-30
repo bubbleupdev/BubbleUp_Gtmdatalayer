@@ -31,6 +31,11 @@ $cookie_consent = array(
     ),
 
 );
+
+$usercentrics = array(
+        "enable_usercentrics_consent" => Mage::getStoreConfig('google/cookie_consent/enable_usercentrics_consent'),
+        "usercentrics_id" => Mage::getStoreConfig('google/cookie_consent/usercentrics_id')
+);
 ?>
 <style>
     .async-hide {
@@ -70,19 +75,19 @@ $cookie_consent = array(
             var trigger = <?php echo $trigger; ?>
             <?php endif; ?>
 
-            document.addEventListener('DOMContentLoaded', function() {
-                <?php  if(!$selector = $cookie_consent['activity_scroll_element']):?>
-                var selector = 0;
-                <?php else: ?>
-                var selector = "<?php echo $selector; ?>";
-                <?php endif; ?>
+                document.addEventListener('DOMContentLoaded', function() {
+                    <?php  if(!$selector = $cookie_consent['activity_scroll_element']):?>
+                    var selector = 0;
+                    <?php else: ?>
+                    var selector = "<?php echo $selector; ?>";
+                    <?php endif; ?>
 
-                if(selector){
-                    scrolling(document.querySelector(selector),trigger,activity);
-                } else {
-                    scrolling(window,trigger,activity);
-                }
-            }, false);
+                    if(selector){
+                        scrolling(document.querySelector(selector),trigger,activity);
+                    } else {
+                        scrolling(window,trigger,activity);
+                    }
+                }, false);
         }
     </script>
     <script>
@@ -151,33 +156,28 @@ $cookie_consent = array(
         // Opt-Out Tracking
         if(compliance_type=="opt-out"){
             if(consent_status!="deny")
-            enableTracking();
+                enableTracking();
         }
     </script>
+    <script>
+        changeCookieOnUserActivity();
+    </script>
+<?php elseif ($usercentrics["enable_usercentrics_consent"]): ?>
+    <script type="application/javascript" src="https://app.usercentrics.eu/latest/main.js" id="<?php echo $usercentrics["usercentrics_id"] ?>"> </script>
+    <!-- Google Tag Manager -->
+    <script type="text/plain" data-usercentrics="Google Tag Manager">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','<?php echo $gtm_id; ?>');</script>
+    <!-- End Google Tag Manager -->
 
 <?php else: //cookie_consent["enable"]  ?>
-    <?php if ($optimize_yesno) : ?>
-        <style>.async-hide {
-                opacity: 0 !important
-            } </style>
-        <script>
-            loadOptimizeTag();
-        </script>
-    <?php endif; ?>
     <!-- Google Tag Manager -->
-    <script>
-        loadTagManager();
-    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','<?php echo $gtm_id; ?>');</script>
     <!-- End Google Tag Manager -->
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $gtm_id; ?>"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
 <?php endif; //cookie_consent["enable"]  ?>
-
-
-<script>
-    changeCookieOnUserActivity();
-</script>
